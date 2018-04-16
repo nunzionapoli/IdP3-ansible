@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+        ServerName "idp.example.org"
+        Redirect permanent "/" "https://idp.example.org/"
+        RedirectMatch permanent ^/(.*)$ https://idp.example.org/$1
+</VirtualHost>
+
+<VirtualHost *:80>
+        ServerName "sp.example.org"
+        Redirect permanent "/" "https://sp.example.org/"
+        RedirectMatch permanent ^/(.*)$ https://sp.example.org/$1
+</VirtualHost>

@@ -1,0 +1,11 @@
+---
+
+- ldap_entry:
+    dn: "cn=search,ou=system,dc=example,dc=org"
+    objectClass:
+      - inetOrgPerson
+    attributes:
+      cn: "search"
+      sn: "search"
+      givenName: "search"
+      userPassword: "password"

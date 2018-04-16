@@ -1,0 +1,17 @@
+---
+# handlers file for openldap
+- name: "Restart slapd"
+  become: yes
+  become_method: sudo
+  systemd:
+   name: slapd
+   daemon-reload: True
+   state: restarted
+
+- name: "Restart rsyslog"
+  become: yes
+  become_method: sudo
+  systemd:
+   name: rsyslog
+   daemon-reload: True
+   state: restarted

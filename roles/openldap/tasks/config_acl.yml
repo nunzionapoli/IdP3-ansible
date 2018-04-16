@@ -1,0 +1,23 @@
+---
+
+- ldap_attr:
+    dn: "olcDatabase={1}mdb,cn=config"
+    name: olcAccess
+    values:
+      - >-
+        {0}to *
+        by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth manage
+        by * break
+      - >-
+        {1}to dn.base=""
+        by anonymous auth
+        by * read
+      - >-
+        {2}to dn.base="cn=Subschema"
+        by * read
+      - >-
+        {3}to *
+        by dn.exact="cn=search,ou=system,dc=example,dc=org" read
+        by anonymous auth
+        by self read
+    state: exact

@@ -1,29 +1,105 @@
-- name: Check debconf for mysql-server entries
+---
+# tasks file for mysql
+- name: "Install 'debconf-utils' package"
+  apt:
+   name: "debconf-utils"
+   state: latest
+   update_cache: yes
+  tags: mysql
+
+- name: "Check if debconf-get-selections has parameters for unattended mysql installation and store the result on 'debconf' ansible variable"
   shell: (debconf-get-selections | grep -q -s mysql-server); echo $?
   register: debconf
   ignore_errors: yes
+  changed_when: false
+  tags: mysql 
 
-- name: Set debconf mysql root password
-  debconf: name=mysql-server question="mysql-server/root_password" value="{{ mysql_pw }}" vtype="password"
+- name: "Set MYSQL unattented installation debconf's parameters"
+  debconf:
+    name: "mysql-server"
+    question: "{{ item.question }}"
+    vtype: "{{ item.type }}"
+    value: "{{ item.value }}"
+  with_items:
+    - question: mysql-server/root_password
+      type: password
+      value: "{{ mysql_pw }}"
+    - question: mysql-server/root_password_again
+      type: password
+      value: "{{ mysql_pw }}"
   when: debconf.stdout == "1"
-    
-- name: Set debconf mysql root password again
-  debconf: name=mysql-server question="mysql-server/root_password_again" value="{{ mysql_pw }}" vtype="password"
-  when: debconf.stdout == "1"
+  tags: mysql
 
-- name: Install Mysql
-  apt: name=mysql-server state=present
+- name: "Install Mysql server and needed libraries"
+  apt:
+   name: "{{ item }}"
+   state: latest
+   update_cache: yes
+  with_items:
+   - python-mysqldb
+   - mysql-server
+   - libmysql-java
+   - libcommons-dbcp-java
+   - libcommons-pool-java
+  tags: mysql
 
-- name: Run Mysql
-  service: name=mysql state=started enabled=yes
+- name: "Configure .my.cnf file for a simple MySQL authentication"
+  template: 
+    src: "root.cnf.j2" 
+    dest: "~/.my.cnf"
+    mode: 0600
+  tags: mysql
 
-- name: Create Shibboleth Database
-  shell: mysql -u root --password=password < roles/mysql/files/shibboleth.sql
+- name: "Assign the right privileges to the /tmp directory"
+  file:
+    path: "/tmp"
+    state: directory
+    mode: "u+rwx,g+rwx,o+rwt"
+  tags: mysql
 
-- name: Check table RuoliOrganizzativi
-  shell: echo 'SELECT * FROM RuoliOrganizzativi' | mysql -u root --password=password shibboleth
-  register: ruoli_org
+- name: "Start MySQL service"
+  systemd:
+    name: mysql
+    daemon-reload: True
+    state: started
+    enabled: True
+  tags: mysql
 
-- name: Load table RuoliOrganizzativi
-  shell: mysql -u root --password=password shibboleth < roles/mysql/files/insert-ruoliorganizzativi.sql
-  when: ruoli_org.stdout == ""
+- name: "Be sure that all root accounts receive the root password for database"
+  mysql_user: 
+   name: "root" 
+   host: "{{ item }}" 
+   password: "{{ mysql_pw }}"
+   state: present
+  with_items:
+     - "idp.example.org"
+     - "sp.example.org"
+     - 127.0.0.1
+     - ::1
+     - localhost
+  tags: mysql
+
+- name: "Put the Shibboleth Identity Provider persistent-id database structure file in the right position"
+  template:
+   src: "shib-idp-persistentId-db.sql.j2"
+   dest: "/root/shib-idp-persistentId-db.sql"
+   owner: "root"
+   group: "root"
+   mode: "0600"
+  tags: mysql
+
+- name: "Check the existance of 'shibboleth' database"
+  command: mysql -u root -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='shibboleth'"
+  register: shib_db
+  changed_when: false
+  tags: mysql
+
+- name: "Create the persistent identifiers 'shibboleth' database"
+  mysql_db:
+   encoding: "utf8"
+   state: import
+   name: all
+   target: "/root/shib-idp-persistentId-db.sql"
+  when: shib_db.stdout != 'shibboleth'
+  tags: mysql
+

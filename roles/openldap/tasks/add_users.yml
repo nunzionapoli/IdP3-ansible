@@ -1,0 +1,65 @@
+---
+
+- ldap_entry:
+    dn: "uid=mario,ou=people,dc=example,dc=org"
+    objectClass:
+      - inetOrgPerson
+      - eduPerson
+      - schacLinkageIdentifiers
+      - schacEntryMetadata
+    attributes:
+      uid: "mario"
+      sn: "Rossi"
+      givenName: "Mario"
+      cn: "Mario Rossi"
+      mail: "mario.rossi@example.org"
+      eduPersonAffiliation: "member"
+      eduPersonAffiliation: "staff"
+
+- ldap_entry:
+    dn: "uid=maria,ou=people,dc=example,dc=org"
+    objectClass:
+      - inetOrgPerson
+      - eduPerson
+      - schacLinkageIdentifiers
+      - schacEntryMetadata
+    attributes:
+      uid: "maria"
+      sn: "Verdi"
+      givenName: "Maria"
+      cn: "Maria Verdi"
+      mail: "maria.verdi@example.org"
+      eduPersonAffiliation: "member"
+      eduPersonAffiliation: "student"
+
+- ldap_entry:
+    dn: "uid=pina,ou=people,dc=example,dc=org"
+    objectClass:
+      - inetOrgPerson
+      - eduPerson
+      - schacLinkageIdentifiers
+      - schacEntryMetadata
+    attributes:
+      uid: "pina"
+      sn: "Verdi"
+      givenName: "Pina"
+      cn: "Pina Verdi"
+      mail: "pina.verdi@example.org"
+      eduPersonAffiliation: "member"
+      eduPersonAffiliation: "faculty"
+
+- ldap_entry:
+    dn: "uid=pino,ou=people,dc=example,dc=org"
+    objectClass:
+      - inetOrgPerson
+      - eduPerson
+      - schacLinkageIdentifiers
+      - schacEntryMetadata
+    attributes:
+      uid: "pino"
+      sn: "Verdi"
+      givenName: "Pino"
+      cn: "Pino Verdi"
+      mail: "pino.verdi@example.org"
+      eduPersonAffiliation: "member"
+      eduPersonAffiliation: "staff"

@@ -1,30 +1,39 @@
 - name: Stat Shibboleth IdP tarball in /opt 
-  stat: path=/opt/shibboleth-identity-provider-3.3.1.tar.gz
+  stat: 
+   path: /opt/shibboleth-identity-provider-3.3.2.tar.gz
   register: shib_tarball
 
 - name: Download Shibboleth IdP
-  get_url: url={{ idp_dl_url }} dest=/opt
+  get_url: 
+   url: "{{ idp_dl_url }}" 
+   dest: /opt
   when: shib_tarball.stat.exists == False
 
 - name: Stat Shibboleth IdP source dir in /opt 
-  stat: path=/opt/shibboleth-identity-provider-3.3.1
+  stat: 
+   path: /opt/shibboleth-identity-provider-3.3.2
   register: shib_dir_source
   
 - name: Unarchive Shibboleth IdP
-  unarchive: src=/opt/shibboleth-identity-provider-3.3.1.tar.gz dest=/opt
+  unarchive: 
+   src: /opt/shibboleth-identity-provider-3.3.2.tar.gz 
+   dest: /opt
   when: shib_dir_source.stat.exists == False and pre_t is defined and pre_t > 1 
 
 - name: Cleanup Shibboleth IdP Install
-  file: path=/opt/shibboleth-idp state=absent
+  file: 
+   path: /opt/shibboleth-idp 
+   state: absent
   when: cleanup is defined
 
 - name: Stat Shibboleth IdP dest dir in /opt
-  stat: path=/opt/shibboleth-idp/metadata
+  stat: 
+   path: /opt/shibboleth-idp/metadata
   register: shib_dir_dest
 
 - name: Copy template configuration for ldap.properties
   copy: 
-    src: roles/shib3idp/files/ldap.properties-corso
+    src: files/ldap.properties-corso
     dest: "{{ idp_path }}/conf/ldap.properties"
   when: pre_t is defined and pre_t == 1
 
@@ -61,7 +70,10 @@
   when: shib_dir_dest.stat.exists == False and pre_t is defined and pre_t > 1 
   
 - name: tomcat7 user for idp dirs
-  file: name="{{ item }}" owner=tomcat7 recurse=yes
+  file: 
+   name: "{{ item }}" 
+   owner: tomcat7
+   recurse: yes
   with_items:
     - "{{ idp_path }}/conf"
     - "{{ idp_path }}/logs"
@@ -171,6 +183,8 @@
   when: pre_t is defined and pre_t > 4
   
 - name: Restart Tomcat7
-  service: name=tomcat7 state=restarted
+  service: 
+   name: tomcat7
+   state: restarted
   when: pre_t is defined and pre_t > 1
 
