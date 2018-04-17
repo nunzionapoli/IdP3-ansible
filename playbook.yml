@@ -5,7 +5,7 @@
   vars:
     domain: example.org
     cert_path: /etc/ssl/certs
-    java_home: /usr/lib/jvm/default-jave/jre
+    java_home: /usr/lib/jvm/default-java/jre
     idp_dl_url: https://shibboleth.net/downloads/identity-provider/3.3.2/shibboleth-identity-provider-3.3.2.tar.gz
     idp_fqdn: idp.example.org
     idp_path: /opt/shibboleth-idp
