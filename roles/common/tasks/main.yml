@@ -13,12 +13,6 @@
    src: "roles/common/templates/sources.list"
    dest: "/etc/apt/sources.list"
 
-- name: "Update apt cache"
-  apt: 
-   update_cache: "yes"
-   cache_valid_time: 86400
-  tags: online
-
 - name: "Uninstall slapd"
   apt: 
    name: "slapd" 
@@ -45,10 +39,17 @@
    state: "absent"
   when: "cleanup is defined"
 
+- name: "Remove /opt/shibboleth-idp dir"
+  file: 
+   path: "/opt/shibboleth-idp"
+   state: "absent"
+  when: "cleanup is defined"
+
 - name: "Install apt packages"
   apt: 
    name: "{{ item }}"
-   state: "present"
+   update_cache: "yes"
+   state: "latest"
   with_items:
     - html2text
     - vim

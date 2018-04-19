@@ -22,6 +22,6 @@
     - openldap
     - apache2
     - mysql
-#    - shib3idp
-#    - mod-shib2
+    - shib3idp
+    - mod-shib2
 

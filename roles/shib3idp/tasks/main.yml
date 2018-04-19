@@ -69,22 +69,24 @@
     -Didp.merge.properties=/tmp/shib-install.properties
   when: shib_dir_dest.stat.exists == False and pre_t is defined and pre_t > 1 
   
-- name: tomcat7 user for idp dirs
+- name: Jetty user for idp dirs
   file: 
    name: "{{ item }}" 
-   owner: tomcat7
+   owner: jetty
    recurse: yes
   with_items:
     - "{{ idp_path }}/conf"
     - "{{ idp_path }}/logs"
     - "{{ idp_path }}/metadata"
     - "{{ idp_path }}/credentials"
+    - "{{ idp_path }}/system"
+    - "{{ idp_path }}/war"
   when: pre_t is defined and pre_t > 1 
   
 - name: Install the IdP WAR
-  template: 
-    src: roles/shib3idp/templates/idp.xml 
-    dest: /etc/tomcat7/Catalina/localhost/idp.xml
+  copy:
+    src: files/idp.xml 
+    dest: /opt/jetty/webapps/idp.xml
   when: pre_t is defined and pre_t > 1 
 
 - name: Generate salt for persistentId generator
@@ -150,7 +152,7 @@
   copy:
     src: roles/shib3idp/files/scripts
     dest: "{{ idp_path }}/conf/"
-    owner: tomcat7
+    owner: jetty
 
 - name: Add IdP attribute-resolver-myRdbms.xml-template
   copy: 
@@ -182,9 +184,12 @@
     dest: "{{ idp_path }}/conf/attribute-resolver.xml"
   when: pre_t is defined and pre_t > 4
   
-- name: Restart Tomcat7
-  service: 
-   name: tomcat7
+- name: "Restart Jetty"
+  become: yes
+  become_method: sudo
+  systemd:
+   name: jetty
+   daemon-reload: True
    state: restarted
   when: pre_t is defined and pre_t > 1
-
+  

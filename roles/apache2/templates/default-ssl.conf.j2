@@ -1,5 +1,4 @@
 <IfModule mod_ssl.c>
-        SSLStaplingCache        shmcb:/var/run/ocsp(128000)
         <VirtualHost _default_:443>
                 ServerName idp.example.org
                 ServerAdmin idp-admin@example.org
@@ -20,11 +19,6 @@
 
                 # Disable SSL Compression
                 SSLCompression Off
-
-                # OCSP Stapling, only in httpd 2.3.3 and later
-                SSLUseStapling          on
-                SSLStaplingResponderTimeout 5
-                SSLStaplingReturnResponderErrors off
 
                 # Enable HTTP Strict Transport Security with a 2 year duration
                 Header always set Strict-Transport-Security "max-age=63072000;includeSubDomains;preload"
@@ -64,11 +58,6 @@
 
                 # Disable SSL Compression
                 SSLCompression Off
-
-                # OCSP Stapling, only in httpd 2.3.3 and later
-                SSLUseStapling          on
-                SSLStaplingResponderTimeout 5
-                SSLStaplingReturnResponderErrors off
 
                 # Enable HTTP Strict Transport Security with a 2 year duration
                 Header always set Strict-Transport-Security "max-age=63072000;includeSubDomains;preload"
