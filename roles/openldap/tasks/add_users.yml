@@ -1,4 +1,23 @@
 ---
+- name: "Generate Mario's Password"
+  command: "/usr/sbin/slappasswd -s mariopw"
+  register: slapd_mario_pw_hash
+  changed_when: false
+
+- name: "Generate Maria's Password"
+  command: "/usr/sbin/slappasswd -s mariapw"
+  register: slapd_maria_pw_hash
+  changed_when: false
+
+- name: "Generate Pino's Password"
+  command: "/usr/sbin/slappasswd -s pinopw"
+  register: slapd_pino_pw_hash
+  changed_when: false
+
+- name: "Generate Pina's Password"
+  command: "/usr/sbin/slappasswd -s pinapw"
+  register: slapd_pina_pw_hash
+  changed_when: false
 
 - ldap_entry:
     dn: "uid=mario,ou=people,dc=example,dc=org"
@@ -14,7 +33,15 @@
       cn: "Mario Rossi"
       mail: "mario.rossi@example.org"
       eduPersonAffiliation: "member"
-      eduPersonAffiliation: "staff"
+      userPassword: "mariopw2018"
+
+- ldap_attr:
+    dn: "uid=mario,ou=people,dc=example,dc=org"
+    name: eduPersonAffiliation
+    values:
+     - "member"
+     - "staff"
+    state: present
 
 - ldap_entry:
     dn: "uid=maria,ou=people,dc=example,dc=org"
@@ -30,23 +57,15 @@
       cn: "Maria Verdi"
       mail: "maria.verdi@example.org"
       eduPersonAffiliation: "member"
-      eduPersonAffiliation: "student"
+      userPassword: "mariapw2018"
 
-- ldap_entry:
-    dn: "uid=pina,ou=people,dc=example,dc=org"
-    objectClass:
-      - inetOrgPerson
-      - eduPerson
-      - schacLinkageIdentifiers
-      - schacEntryMetadata
-    attributes:
-      uid: "pina"
-      sn: "Verdi"
-      givenName: "Pina"
-      cn: "Pina Verdi"
-      mail: "pina.verdi@example.org"
-      eduPersonAffiliation: "member"
-      eduPersonAffiliation: "faculty"
+- ldap_attr:
+    dn: "uid=maria,ou=people,dc=example,dc=org"
+    name: eduPersonAffiliation
+    values:
+     - "member"
+     - "student"
+    state: present
 
 - ldap_entry:
     dn: "uid=pino,ou=people,dc=example,dc=org"
@@ -62,4 +81,37 @@
       cn: "Pino Verdi"
       mail: "pino.verdi@example.org"
       eduPersonAffiliation: "member"
-      eduPersonAffiliation: "staff"
+      userPassword: "pinopw2018"
+
+- ldap_attr:
+    dn: "uid=pino,ou=people,dc=example,dc=org"
+    name: eduPersonAffiliation
+    values:
+     - "member"
+     - "staff"
+    state: present
+
+- ldap_entry:
+    dn: "uid=pina,ou=people,dc=example,dc=org"
+    objectClass:
+      - inetOrgPerson
+      - eduPerson
+      - schacLinkageIdentifiers
+      - schacEntryMetadata
+    attributes:
+      uid: "pina"
+      sn: "Verdi"
+      givenName: "Pina"
+      cn: "Pina Verdi"
+      mail: "pina.verdi@example.org"
+      eduPersonAffiliation: "member"
+      userPassword: "pinapw2018"
+
+- ldap_attr:
+    dn: "uid=pina,ou=people,dc=example,dc=org"
+    name: eduPersonAffiliation
+    values:
+     - "member"
+     - "faculty"
+    state: present
+

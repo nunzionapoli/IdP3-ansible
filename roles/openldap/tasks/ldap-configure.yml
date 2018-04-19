@@ -158,3 +158,8 @@
   import_tasks: add_groups.yml
   notify:
    - "Restart slapd"
+
+- name: "Add users"
+  import_tasks: add_users.yml
+  notify:
+   - "Restart slapd"
