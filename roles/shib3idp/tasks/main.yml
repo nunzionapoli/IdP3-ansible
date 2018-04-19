@@ -55,15 +55,37 @@
     dest: /tmp/shib-install.properties
   when: pre_t is defined and pre_t > 1 
 
+- name: "Put the JSTL libraries, needed for Shibboleth IdP Status page, in the right position"
+  copy:
+   src: "files/jstl-1.2.jar"
+   dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/jstl-1.2.jar"
+   owner: "root"
+   group: "root"
+   mode: 0644
+  when: pre_t is defined and pre_t > 1 
+
+- name: "Create link for commons-dbcp, commons-pool and mysql JAR files used by Shibboleth IdP"
+  file:
+   src: "{{ item.src }}" 
+   dest: "{{ item.dest }}"
+   owner: "jetty"
+   group: "jetty"
+   state: link
+  with_items:
+   - { src: '/usr/share/java/commons-dbcp.jar' ,dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/commons-dbcp.jar" }
+   - { src: '/usr/share/java/commons-pool.jar' ,dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/commons-pool.jar" }
+   - { src: '/usr/share/java/mysql.jar' ,dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/mysql-connector-java.jar" }
+  when: pre_t is defined and pre_t > 1 
+
 - name: Install Shibboleth Idp
   environment: 
     JAVA_HOME: "{{ java_home }}"
   command: |
-    /opt/shibboleth-identity-provider-3.3.1/bin/install.sh \
+    /opt/shibboleth-identity-provider-3.3.2/bin/install.sh \
     -Didp.sealer.password={{ idp_pw }} \
     -Didp.keystore.password={{ idp_pw }} \
     -Didp.scope={{ domain }} \
-    -Didp.src.dir=/opt/shibboleth-identity-provider-3.3.1 \
+    -Didp.src.dir=/opt/shibboleth-identity-provider-3.3.2 \
     -Didp.host.name={{ idp_fqdn }} \
     -Didp.target.dir=/opt/shibboleth-idp \
     -Didp.merge.properties=/tmp/shib-install.properties
