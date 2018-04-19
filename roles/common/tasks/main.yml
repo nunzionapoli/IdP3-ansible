@@ -55,7 +55,6 @@
     - vim
     - ntp
     - apache2
-    - libjstl1.1-java
     - libmysql-java
     - libapache2-mod-shib2
     - libapache2-mod-php5
