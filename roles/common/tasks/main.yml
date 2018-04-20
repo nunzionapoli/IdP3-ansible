@@ -55,6 +55,9 @@
     - vim
     - ntp
     - libmysql-java
+    - ca-certificates
+    - ssl-cert
+    - openssl
   tags: online
 
 - name: "Install CA Certificate"
