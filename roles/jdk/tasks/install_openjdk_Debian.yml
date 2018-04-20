@@ -13,7 +13,6 @@
   apt:
    name: "{{ item }}"
    state: latest
-   update_cache: "yes"
    default_release: "jessie-backports"
   with_items:
    - "ca-certificates-java"
@@ -26,7 +25,6 @@
   apt:
    name: "{{ item }}"
    state: latest
-   update_cache: "yes"
   with_items:
    - "ca-certificates-java"
    - "openjdk-8-jre-headless"
