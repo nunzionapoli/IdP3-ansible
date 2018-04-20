@@ -8,10 +8,10 @@
    src: "roles/common/templates/environment"
    dest: "/etc/environment"
 
-#- name: "Add GARR apt sources"
-#  template: 
-#   src: "roles/common/templates/sources.list"
-#   dest: "/etc/apt/sources.list"
+- name: "Add GARR apt sources"
+  template: 
+   src: "roles/common/templates/sources.list"
+   dest: "/etc/apt/sources.list"
 
 - name: "Uninstall slapd"
   apt: 
@@ -33,11 +33,11 @@
    purge: "yes"
   when: "cleanup is defined"
 
-- name: "Remove /etc/shibboleth dir"
-  file: 
-   path: "/etc/shibboleth"
-   state: "absent"
-  when: "cleanup is defined"
+#- name: "Remove /etc/shibboleth dir"
+#  file: 
+#   path: "/etc/shibboleth"
+#   state: "absent"
+#  when: "cleanup is defined"
 
 - name: "Remove /opt/shibboleth-idp dir"
   file: 
