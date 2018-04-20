@@ -50,6 +50,7 @@
    name: "{{ item }}"
    update_cache: "yes"
    state: "latest"
+   install_recommends: "no"
   with_items:
     - html2text
     - vim

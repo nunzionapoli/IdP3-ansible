@@ -4,7 +4,7 @@
   apt:
    name: "debconf-utils"
    state: latest
-   update_cache: yes
+   install_recommends: "no"
   tags: mysql
 
 - name: "Check if debconf-get-selections has parameters for unattended mysql installation and store the result on 'debconf' ansible variable"
@@ -34,7 +34,7 @@
   apt:
    name: "{{ item }}"
    state: latest
-   update_cache: yes
+   install_recommends: "no"
   with_items:
    - python-mysqldb
    - mysql-server

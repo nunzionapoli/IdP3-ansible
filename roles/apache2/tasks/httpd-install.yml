@@ -4,3 +4,4 @@
   apt:
    name: "{{ httpd_packages }}"
    state: latest
+   install_recommends: "no"
