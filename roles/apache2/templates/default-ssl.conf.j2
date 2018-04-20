@@ -28,8 +28,8 @@
 
                 #SSLCACertificateFile /etc/ssl/certs/idp.example.org-cert.pem
 
-		#ProxyPreserveHost Off
-		#RequestHeader set X-Forwarded-Proto "https"
+		ProxyPreserveHost Off
+		RequestHeader set X-Forwarded-Proto "https"
 		ProxyPass /idp http://localhost:8080/idp retry=5
 		ProxyPassReverse /idp http://localhost:8080/idp retry=5
 
