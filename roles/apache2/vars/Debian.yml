@@ -4,3 +4,5 @@
 httpd_packages:
   - apache2
   - apache2-utils
+  - libapache2-mod-shib2
+  - libapache2-mod-php5

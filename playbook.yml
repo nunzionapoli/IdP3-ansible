@@ -17,10 +17,10 @@
     idpdb_pw: password
   roles:
     - common
+    - apache2
     - jdk
     - jetty
     - openldap
-    - apache2
     - mysql
     - shib3idp
     - mod-shib2

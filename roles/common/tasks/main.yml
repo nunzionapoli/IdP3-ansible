@@ -8,10 +8,10 @@
    src: "roles/common/templates/environment"
    dest: "/etc/environment"
 
-- name: "Add GARR apt sources"
-  template: 
-   src: "roles/common/templates/sources.list"
-   dest: "/etc/apt/sources.list"
+#- name: "Add GARR apt sources"
+#  template: 
+#   src: "roles/common/templates/sources.list"
+#   dest: "/etc/apt/sources.list"
 
 - name: "Uninstall slapd"
   apt: 
@@ -54,10 +54,7 @@
     - html2text
     - vim
     - ntp
-    - apache2
     - libmysql-java
-    - libapache2-mod-shib2
-    - libapache2-mod-php5
   tags: online
 
 - name: "Install CA Certificate"
