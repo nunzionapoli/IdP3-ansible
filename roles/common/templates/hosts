@@ -1,2 +1,2 @@
 127.0.0.1	localhost
-127.0.1.1	{{ idp_fqdn }}	{{ sp_fqdn }}	idp	sp
+192.168.33.10 {{ idp_fqdn }}  {{ sp_fqdn }} idp sp
