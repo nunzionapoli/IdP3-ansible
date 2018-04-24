@@ -18,31 +18,57 @@
    name: "slapd" 
    state: "absent" 
    purge: "yes"
+   autoclean: yes
+   autoremove: yes
   when: "cleanup is defined"
 
-- name: "Remove /var/lib/ldap"
+- name: "Remove OpenLDAP dirs"
   file: 
-   path: "/var/lib/ldap" 
+   path: "{{ item }}"
    state: "absent"
+  with_items:
+   - "/run/slapd"
+   - "/etc/init.d/slapd"
+   - "/etc/default/slapd"
+   - "/var/log/slapd"
   when: "cleanup is defined"
 
-- name: "Uninstall libapache2-mod-shib2"
+- name: "Uninstall Shibboleth SP"
   apt: 
-   name: "libapache2-mod-shib2" 
+   name: "{{ item }}" 
    state: "absent"
    purge: "yes"
+   autoclean: yes
+   autoremove: yes
+  with_items:
+   - "libapache2-mod-shib2"
+   - "shibboleth-sp2-common"
+   - "shibboleth-sp2-utils"
   when: "cleanup is defined"
 
-#- name: "Remove /etc/shibboleth dir"
-#  file: 
-#   path: "/etc/shibboleth"
-#   state: "absent"
-#  when: "cleanup is defined"
-
-- name: "Remove /opt/shibboleth-idp dir"
+- name: "Remove Shibboleth SP files"
   file: 
-   path: "/opt/shibboleth-idp"
+   path: "{{ item }}"
    state: "absent"
+  with_items:
+   - "/etc/init.d/shibd"
+   - "/etc/shibboleth"
+   - "/etc/apache2/mods-available/shib2.load"
+   - "/etc/default/shibd"
+   - "/var/log/shibboleth"
+   - "/var/lib/dpkg/info/shibboleth-sp2-utils.postrm"
+   - "/var/lib/dpkg/info/shibboleth-sp2-utils.list"
+   - "/var/lib/dpkg/info/shibboleth-sp2-common.list"
+   - "/var/lib/apache2/module/disabled_by_maint/shib2"
+  when: "cleanup is defined"
+
+- name: "Remove Shibboleth IdP files"
+  file: 
+   path: "{{ item }}"
+   state: "absent"
+  with_items:
+   - "/opt/shibboleth-idp"
+   - "/opt/shibboleth-identity-provider-3.3.2.tar.gz"
   when: "cleanup is defined"
 
 - name: "Install apt packages"

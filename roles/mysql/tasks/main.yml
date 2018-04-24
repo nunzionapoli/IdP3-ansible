@@ -94,6 +94,10 @@
   changed_when: false
   tags: mysql
 
+- debug:
+   var: shib_db
+  tags: mysql
+
 - name: "Create the persistent identifiers 'shibboleth' database"
   mysql_db:
    encoding: "utf8"

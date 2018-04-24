@@ -24,7 +24,7 @@
   file: 
    path: /opt/shibboleth-idp 
    state: absent
-  when: cleanup is defined
+  when: "cleanup is defined"
 
 - name: Stat Shibboleth IdP dest dir in /opt
   stat: 
