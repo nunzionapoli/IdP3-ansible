@@ -55,15 +55,6 @@
     dest: /tmp/shib-install.properties
   when: pre_t is defined and pre_t > 1 
 
-- name: "Put the JSTL libraries, needed for Shibboleth IdP Status page, in the right position"
-  copy:
-   src: "files/jstl-1.2.jar"
-   dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/jstl-1.2.jar"
-   owner: "root"
-   group: "root"
-   mode: 0644
-  when: pre_t is defined and pre_t > 1 
-
 - name: "Create link for commons-dbcp, commons-pool and mysql JAR files used by Shibboleth IdP"
   file:
    src: "{{ item.src }}" 
@@ -74,6 +65,7 @@
   with_items:
    - { src: '/usr/share/java/commons-dbcp.jar' ,dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/commons-dbcp.jar" }
    - { src: '/usr/share/java/commons-pool.jar' ,dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/commons-pool.jar" }
+   - { src: '/usr/share/java/jstl1.1.jar' ,dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/jstl1.1.jar" }
    - { src: '/usr/share/java/mysql.jar' ,dest: "/opt/shibboleth-identity-provider-3.3.2/webapp/WEB-INF/lib/mysql-connector-java.jar" }
   when: pre_t is defined and pre_t > 1 
 
@@ -175,6 +167,7 @@
     src: roles/shib3idp/files/scripts
     dest: "{{ idp_path }}/conf/"
     owner: jetty
+  when: "cleanup is not defined"
 
 - name: Add IdP attribute-resolver-myRdbms.xml-template
   copy: 

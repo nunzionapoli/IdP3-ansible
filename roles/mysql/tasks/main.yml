@@ -41,6 +41,7 @@
    - libmysql-java
    - libcommons-dbcp-java
    - libcommons-pool-java
+   - libjstl1.1-java
   tags: mysql
 
 - name: "Configure .my.cnf file for a simple MySQL authentication"
@@ -80,9 +81,9 @@
   tags: mysql
 
 - name: "Put the Shibboleth Identity Provider persistent-id database structure file in the right position"
-  template:
-   src: "shib-idp-persistentId-db.sql.j2"
-   dest: "/root/shib-idp-persistentId-db.sql"
+  copy:
+   src: "files/shibboleth.sql"
+   dest: "/root/shibboleth.sql"
    owner: "root"
    group: "root"
    mode: "0600"
@@ -94,16 +95,12 @@
   changed_when: false
   tags: mysql
 
-- debug:
-   var: shib_db
-  tags: mysql
-
-- name: "Create the persistent identifiers 'shibboleth' database"
+- name: "Create 'shibboleth' database and 'RuoliOrganizzativi' table"
   mysql_db:
    encoding: "utf8"
    state: import
    name: all
-   target: "/root/shib-idp-persistentId-db.sql"
-  when: shib_db.stdout != 'shibboleth'
+   target: "/root/shibboleth.sql"
+  when: "shib_db.stdout != 'shibboleth' and cleanup is not defined"
   tags: mysql
 

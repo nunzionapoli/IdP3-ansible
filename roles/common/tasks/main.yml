@@ -62,6 +62,20 @@
    - "/var/lib/apache2/module/disabled_by_maint/shib2"
   when: "cleanup is defined"
 
+- name: "Check the existance of 'shibboleth' database"
+  command: mysql -u root -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='shibboleth'"
+  register: shib_db
+  changed_when: false
+
+- debug:
+   var: shib_db
+
+- name: "Remove 'shibboleth' database"
+  shell: "mysql -e 'DROP DATABASE shibboleth'"
+  when: 
+   - "cleanup is defined"
+   - "shib_db.stdout == 'shibboleth'"
+
 - name: "Remove Shibboleth IdP files"
   file: 
    path: "{{ item }}"
@@ -85,6 +99,7 @@
     - ca-certificates
     - ssl-cert
     - openssl
+    - curl
   tags: online
 
 - name: "Install CA Certificate"
