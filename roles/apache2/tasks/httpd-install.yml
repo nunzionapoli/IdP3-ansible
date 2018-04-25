@@ -1,0 +1,7 @@
+---
+# tasks file for apache
+- name: "Install needed packages"
+  apt:
+   name: "{{ httpd_packages }}"
+   state: latest
+   install_recommends: "no"

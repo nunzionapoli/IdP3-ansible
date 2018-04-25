@@ -1,0 +1,10 @@
+---
+# tasks file for jdk
+- name: "Include OS-specific variables."
+  include_vars: "{{ ansible_os_family }}.yml"
+  tags: jdk
+
+- name: "Install OpenJDK"
+  import_tasks: "install_openjdk_Debian.yml"
+  when: jdk_type == "openjdk" and ansible_os_family == 'Debian'
+  tags: jdk

@@ -1,0 +1,36 @@
+---
+
+- ldap_entry:
+    dn: "cn={{ item.cn }},ou=groups,dc=example,dc=org"
+    objectClass:
+      - groupOfNames
+    attributes:
+      member: "{{ item.member }}"
+  with_items:
+   - { cn: "lab", member: "uid=mario,ou=People,dc=example,dc=org" }
+
+- ldap_entry:
+    dn: "cn={{ item.cn }},ou=groups,dc=example,dc=org"
+    objectClass:
+      - groupOfNames
+    attributes:
+      member: "{{ item.member }}"
+  with_items:
+   - { cn: "projc", member: "uid=mario,ou=People,dc=example,dc=org" }
+
+- ldap_attr:
+    dn: "cn=lab,ou=groups,dc=example,dc=org"
+    name: member
+    values:
+     - "uid=mario,ou=People,dc=example,dc=org"
+     - "uid=maria,ou=People,dc=example,dc=org"
+     - "uid=pina,ou=People,dc=example,dc=org"
+    state: present
+
+- ldap_attr:
+    dn: "cn=projc,ou=groups,dc=example,dc=org"
+    name: member
+    values:
+     - "uid=mario,ou=People,dc=example,dc=org"
+     - "uid=pina,ou=People,dc=example,dc=org"
+    state: present

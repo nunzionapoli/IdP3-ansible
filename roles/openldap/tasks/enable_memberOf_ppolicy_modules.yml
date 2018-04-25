@@ -1,0 +1,7 @@
+- ldap_attr:
+    dn: "cn=module{0},cn=config"
+    name: "olcModuleLoad"
+    values: "{{ item }}"
+  with_items:
+    - "{1}memberof"
+    - "{2}ppolicy"
