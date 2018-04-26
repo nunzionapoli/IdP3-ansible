@@ -66,9 +66,7 @@
   command: mysql -u root -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='shibboleth'"
   register: shib_db
   changed_when: false
-
-- debug:
-   var: shib_db
+  when: "cleanup is defined"
 
 - name: "Remove 'shibboleth' database"
   shell: "mysql -e 'DROP DATABASE shibboleth'"
