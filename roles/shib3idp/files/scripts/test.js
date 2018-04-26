@@ -1,11 +1,10 @@
-importPackage(Packages.org.slf4j);
-logger = LoggerFactory.getLogger("net.shibboleth.idp.attribute");
-
-//        Java8
-//        logger = Java.type("org.slf4j.LoggerFactory").getLogger("net.shibboleth.idp.attribute.resolver.scriptDiTest")
-
-// logger = LoggerFactory.getLogger("scriptTesting");
+// Java 7
+//importPackage(Packages.org.slf4j);
+//logger = LoggerFactory.getLogger("net.shibboleth.idp.attribute");
 // scriptTest = new BasicAttribute("scriptTest");
+
+// Java8
+logger = Java.type("org.slf4j.LoggerFactory").getLogger("net.shibboleth.idp.attribute")
 
 scriptTest.getValues().add("################################## Valori a disposizione dell'IdP ##################################");
 
