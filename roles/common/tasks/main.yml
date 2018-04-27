@@ -85,6 +85,7 @@
   with_items:
    - "/opt/shibboleth-idp"
    - "/opt/shibboleth-identity-provider-3.3.2.tar.gz"
+   - "/opt/jetty/webapps/idp.xml"
   when: "cleanup is defined"
 
 - name: "Install apt packages"
