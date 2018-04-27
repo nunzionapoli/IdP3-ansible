@@ -89,18 +89,36 @@
    mode: "0600"
   tags: mysql
 
+- name: "Put the 'insert-ruoliorganizzativi.sql' file in the right position"
+  copy:
+   src: "files/insert-ruoliorganizzativi.sql"
+   dest: "/root/insert-ruoliorganizzativi.sql"
+   owner: "root"
+   group: "root"
+   mode: "0600"
+  tags: mysql
+
 - name: "Check the existance of 'shibboleth' database"
   command: mysql -u root -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='shibboleth'"
   register: shib_db
   changed_when: false
   tags: mysql
 
-- name: "Create 'shibboleth' database and 'RuoliOrganizzativi' table"
+- name: "Create 'shibboleth' database"
   mysql_db:
    encoding: "utf8"
    state: import
    name: all
    target: "/root/shibboleth.sql"
+  when: "shib_db.stdout != 'shibboleth' and cleanup is not defined"
+  tags: mysql
+
+- name: "Create 'RuoliOrganizzativi' table and insert some datas on it"
+  mysql_db:
+   encoding: "utf8"
+   state: import
+   name: all
+   target: "/root/insert-ruoliorganizzativi.sql"
   when: "shib_db.stdout != 'shibboleth' and cleanup is not defined"
   tags: mysql
 
