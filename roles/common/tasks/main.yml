@@ -8,6 +8,10 @@
    src: "roles/common/templates/environment"
    dest: "/etc/environment"
 
+- name: "Set the hostname 'idp'"
+  command: "hostnamectl set-hostname idp"
+  changed_when: false
+
 - name: "Add GARR apt sources"
   template: 
    src: "roles/common/templates/sources.list"
