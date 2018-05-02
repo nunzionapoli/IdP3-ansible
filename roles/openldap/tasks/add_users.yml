@@ -33,7 +33,8 @@
       cn: "Mario Rossi"
       mail: "mario.rossi@example.org"
       eduPersonAffiliation: "member"
-      userPassword: "mariopw2018"
+      employeeNumber: "A-1002"
+     userPassword: "mariopw2018"
 
 - ldap_attr:
     dn: "uid=mario,ou=people,dc=example,dc=org"
@@ -57,6 +58,7 @@
       cn: "Maria Verdi"
       mail: "maria.verdi@example.org"
       eduPersonAffiliation: "member"
+      employeeNumber: "A-1001"
       userPassword: "mariapw2018"
 
 - ldap_attr:
@@ -81,6 +83,7 @@
       cn: "Pino Verdi"
       mail: "pino.verdi@example.org"
       eduPersonAffiliation: "member"
+      employeeNumber: "A-1003"
       userPassword: "pinopw2018"
 
 - ldap_attr:
@@ -105,6 +108,7 @@
       cn: "Pina Verdi"
       mail: "pina.verdi@example.org"
       eduPersonAffiliation: "member"
+      employeeNumber: "A-1004"
       userPassword: "pinapw2018"
 
 - ldap_attr:
