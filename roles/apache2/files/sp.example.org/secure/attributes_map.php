@@ -48,7 +48,7 @@ $header_attributes = array(
 
 $environment_attribute = array(
 #Name of the environment variable	=>array (NONEED|OPTIONAL|REQUIRED, "value or regex", SAML attribute name),
-		"codiceaccesso"						=>array (REQUIRED,"","ORGANIZZAZIONE_servizioX_codice"),
+		"codiceaccessopaghe"						=>array (REQUIRED,"","MY_PAGA_CODE"),
 		"eppn"						=>array (OPTIONAL,"","urn:oid:1.3.6.1.4.1.5923.1.1.1.6"),
 		"affiliation"				=>array (NONEED,"staff","urn:oid:1.3.6.1.4.1.5923.1.1.1.9"),
 		"entitlement"				=>array (OPTIONAL,"","urn:oid:1.3.6.1.4.1.5923.1.1.1.7"),
